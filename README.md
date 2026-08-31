@@ -19,6 +19,8 @@ shared block (`d128 L1`, `K=N`) and a compute-matched fixed-depth Transformer
 (`d128 L7`). Here, `N` is the number of swap events and `K` is the number of
 recurrent applications at inference time.
 
+---
+
 ## Main results
 
 ### Recurrence vs. fixed depth
@@ -40,6 +42,8 @@ accuracy (%)**:
 Recurrence substantially moves the length-generalization boundary, although
 neither model generalizes meaningfully to 40–80 swaps.
 
+---
+
 ### Input representation × positional encoding
 
 The recurrent architecture alone is not sufficient. Atomic operation tokens
@@ -53,6 +57,8 @@ match / slot accuracy (%)**.
 | Template | Absolute sinusoidal | 100.0 / 100.0 | 0.3 / 27.8 | 0.0 / 20.6 | 0.0 / 19.8 |
 | Atomic | NoPE | **100.0 / 100.0** | **90.6 / 97.5** | **4.6 / 36.1** | 0.1 / 19.1 |
 | Atomic | Absolute sinusoidal | 100.0 / 100.0 | 18.0 / 46.6 | 0.0 / 21.0 | 0.0 / 20.4 |
+
+---
 
 ### Recurrent capacity scaling
 
@@ -75,6 +81,8 @@ uv run --extra analysis python scripts/plot_main_length_generalization.py
 The raw per-length results and aggregated mean/SD CSV are stored in
 [`results/paper/main`](results/paper/main).
 
+---
+
 ## Setup
 
 Python 3.10 or later and [uv](https://docs.astral.sh/uv/) are recommended.
@@ -83,6 +91,8 @@ Python 3.10 or later and [uv](https://docs.astral.sh/uv/) are recommended.
 uv sync --extra dev
 uv run pytest
 ```
+
+---
 
 ## YAML-first workflow
 
@@ -150,6 +160,8 @@ uv run python scripts/evaluate_direct_checkpoint.py --config configs/evaluation/
 The original long-form CLI remains backward compatible. When a YAML config and
 CLI option are both supplied, the explicit CLI value takes precedence.
 
+---
+
 ## Evaluation metrics
 
 - **Exact match:** an example is correct only when all five final slot states
@@ -159,6 +171,8 @@ CLI option are both supplied, the explicit CLI value takes precedence.
 
 Reported paper results aggregate seeds 0, 1, and 2. Error bars denote one
 sample standard deviation across these independently seeded runs (`ddof=1`).
+
+---
 
 ## Configuration layout
 
@@ -195,12 +209,16 @@ evaluation:
   batch_size: 128
 ```
 
+---
+
 ## Outputs
 
 Training runs are written under `runs/original/`. Each run stores its resolved
 arguments, model configuration, metrics, result summary, and checkpoint. The
 checkpoint-only evaluators write JSON results to the path specified by their
 evaluation YAML.
+
+---
 
 ## Repository structure
 
