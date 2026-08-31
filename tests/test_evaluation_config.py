@@ -111,6 +111,16 @@ def test_readme_referenced_configs_exist() -> None:
     assert not [path for path in referenced if not (ROOT / path).is_file()]
 
 
+def test_readme_referenced_result_assets_exist() -> None:
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    referenced = set(
+        re.findall(r"\]\(((?:docs/assets|results/paper)/[^)]+)\)", readme)
+    )
+
+    assert referenced
+    assert not [path for path in referenced if not (ROOT / path).exists()]
+
+
 def test_paper_training_configs_match_the_training_cli() -> None:
     for config_path in sorted((ROOT / "configs/paper").glob("*.yaml")):
         relative_path = config_path.relative_to(ROOT)

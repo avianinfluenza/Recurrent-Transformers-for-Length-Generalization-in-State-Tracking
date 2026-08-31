@@ -1,0 +1,22 @@
+{
+  "models": [
+    {
+      "label": "Direct (d128, L7)",
+      "color": "#d84a3f",
+      "seeds": [
+        "per_swap_direct_l7_seed0.json",
+        "per_swap_direct_l7_seed1.json",
+        "per_swap_direct_l7_seed2.json"
+      ]
+    },
+    {
+      "label": "Recurrent (d128, L1; K=N)",
+      "color": "#4c8eda",
+      "seeds": [
+        "per_swap_recurrent_l1_seed0.json",
+        "per_swap_recurrent_l1_seed1.json",
+        "per_swap_recurrent_l1_seed2.json"
+      ]
+    }
+  ]
+}

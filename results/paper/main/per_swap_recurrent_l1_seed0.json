@@ -1,0 +1,484 @@
+{
+  "checkpoint": "..\\..\\drive_seed0_d128_l1\\checkpoint.pt",
+  "architecture": "fan-recurrent",
+  "d_model": 128,
+  "num_layers": 1,
+  "seed": null,
+  "evaluation_mode": "K=N",
+  "points": [
+    {
+      "n_swaps": 2,
+      "n_samples": 48,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 3,
+      "n_samples": 52,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 4,
+      "n_samples": 54,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 5,
+      "n_samples": 54,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 6,
+      "n_samples": 62,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 7,
+      "n_samples": 44,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 8,
+      "n_samples": 71,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 9,
+      "n_samples": 60,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 10,
+      "n_samples": 55,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 11,
+      "n_samples": 100,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 12,
+      "n_samples": 100,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 13,
+      "n_samples": 100,
+      "exact_match": 1.0,
+      "slot_accuracy": 1.0
+    },
+    {
+      "n_swaps": 14,
+      "n_samples": 100,
+      "exact_match": 0.99,
+      "slot_accuracy": 0.998
+    },
+    {
+      "n_swaps": 15,
+      "n_samples": 100,
+      "exact_match": 0.98,
+      "slot_accuracy": 0.994
+    },
+    {
+      "n_swaps": 16,
+      "n_samples": 100,
+      "exact_match": 0.93,
+      "slot_accuracy": 0.984
+    },
+    {
+      "n_swaps": 17,
+      "n_samples": 100,
+      "exact_match": 0.9,
+      "slot_accuracy": 0.978
+    },
+    {
+      "n_swaps": 18,
+      "n_samples": 100,
+      "exact_match": 0.85,
+      "slot_accuracy": 0.964
+    },
+    {
+      "n_swaps": 19,
+      "n_samples": 100,
+      "exact_match": 0.59,
+      "slot_accuracy": 0.888
+    },
+    {
+      "n_swaps": 20,
+      "n_samples": 28,
+      "exact_match": 0.35714285714285715,
+      "slot_accuracy": 0.8071428571428572
+    },
+    {
+      "n_swaps": 21,
+      "n_samples": 25,
+      "exact_match": 0.16,
+      "slot_accuracy": 0.76
+    },
+    {
+      "n_swaps": 22,
+      "n_samples": 20,
+      "exact_match": 0.1,
+      "slot_accuracy": 0.64
+    },
+    {
+      "n_swaps": 23,
+      "n_samples": 32,
+      "exact_match": 0.125,
+      "slot_accuracy": 0.58125
+    },
+    {
+      "n_swaps": 24,
+      "n_samples": 21,
+      "exact_match": 0.047619047619047616,
+      "slot_accuracy": 0.49523809523809526
+    },
+    {
+      "n_swaps": 25,
+      "n_samples": 19,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.47368421052631576
+    },
+    {
+      "n_swaps": 26,
+      "n_samples": 23,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.34782608695652173
+    },
+    {
+      "n_swaps": 27,
+      "n_samples": 32,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.34375
+    },
+    {
+      "n_swaps": 28,
+      "n_samples": 23,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.3217391304347826
+    },
+    {
+      "n_swaps": 29,
+      "n_samples": 20,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.32
+    },
+    {
+      "n_swaps": 30,
+      "n_samples": 23,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.26956521739130435
+    },
+    {
+      "n_swaps": 31,
+      "n_samples": 26,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2153846153846154
+    },
+    {
+      "n_swaps": 32,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2571428571428571
+    },
+    {
+      "n_swaps": 33,
+      "n_samples": 23,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.1391304347826087
+    },
+    {
+      "n_swaps": 34,
+      "n_samples": 27,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.22962962962962963
+    },
+    {
+      "n_swaps": 35,
+      "n_samples": 17,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.1411764705882353
+    },
+    {
+      "n_swaps": 36,
+      "n_samples": 29,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.18620689655172415
+    },
+    {
+      "n_swaps": 37,
+      "n_samples": 23,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.22608695652173913
+    },
+    {
+      "n_swaps": 38,
+      "n_samples": 27,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.23703703703703705
+    },
+    {
+      "n_swaps": 39,
+      "n_samples": 24,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.19166666666666668
+    },
+    {
+      "n_swaps": 40,
+      "n_samples": 38,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.20526315789473684
+    },
+    {
+      "n_swaps": 41,
+      "n_samples": 8,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 42,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 43,
+      "n_samples": 11,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.21818181818181817
+    },
+    {
+      "n_swaps": 44,
+      "n_samples": 9,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2222222222222222
+    },
+    {
+      "n_swaps": 45,
+      "n_samples": 16,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.1375
+    },
+    {
+      "n_swaps": 46,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.12
+    },
+    {
+      "n_swaps": 47,
+      "n_samples": 12,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.13333333333333333
+    },
+    {
+      "n_swaps": 48,
+      "n_samples": 13,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2153846153846154
+    },
+    {
+      "n_swaps": 49,
+      "n_samples": 18,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.16666666666666666
+    },
+    {
+      "n_swaps": 50,
+      "n_samples": 8,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 51,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.24
+    },
+    {
+      "n_swaps": 52,
+      "n_samples": 11,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.14545454545454545
+    },
+    {
+      "n_swaps": 53,
+      "n_samples": 15,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.18666666666666668
+    },
+    {
+      "n_swaps": 54,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.18571428571428572
+    },
+    {
+      "n_swaps": 55,
+      "n_samples": 11,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.16363636363636364
+    },
+    {
+      "n_swaps": 56,
+      "n_samples": 13,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 57,
+      "n_samples": 16,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.175
+    },
+    {
+      "n_swaps": 58,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.21428571428571427
+    },
+    {
+      "n_swaps": 59,
+      "n_samples": 6,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.26666666666666666
+    },
+    {
+      "n_swaps": 60,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.1
+    },
+    {
+      "n_swaps": 61,
+      "n_samples": 18,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.17777777777777778
+    },
+    {
+      "n_swaps": 62,
+      "n_samples": 16,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2125
+    },
+    {
+      "n_swaps": 63,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.18
+    },
+    {
+      "n_swaps": 64,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 65,
+      "n_samples": 15,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.14666666666666667
+    },
+    {
+      "n_swaps": 66,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.17142857142857143
+    },
+    {
+      "n_swaps": 67,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 68,
+      "n_samples": 11,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2909090909090909
+    },
+    {
+      "n_swaps": 69,
+      "n_samples": 9,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.13333333333333333
+    },
+    {
+      "n_swaps": 70,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 71,
+      "n_samples": 6,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 72,
+      "n_samples": 17,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.17647058823529413
+    },
+    {
+      "n_swaps": 73,
+      "n_samples": 11,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.18181818181818182
+    },
+    {
+      "n_swaps": 74,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.28
+    },
+    {
+      "n_swaps": 75,
+      "n_samples": 12,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2833333333333333
+    },
+    {
+      "n_swaps": 76,
+      "n_samples": 13,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.3076923076923077
+    },
+    {
+      "n_swaps": 77,
+      "n_samples": 8,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.15
+    },
+    {
+      "n_swaps": 78,
+      "n_samples": 10,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.2
+    },
+    {
+      "n_swaps": 79,
+      "n_samples": 15,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.17333333333333334
+    },
+    {
+      "n_swaps": 80,
+      "n_samples": 14,
+      "exact_match": 0.0,
+      "slot_accuracy": 0.14285714285714285
+    }
+  ]
+}

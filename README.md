@@ -19,6 +19,62 @@ shared block (`d128 L1`, `K=N`) and a compute-matched fixed-depth Transformer
 (`d128 L7`). Here, `N` is the number of swap events and `K` is the number of
 recurrent applications at inference time.
 
+## Main results
+
+### Recurrence vs. fixed depth
+
+Both models fit the held-out ID split, but their behavior separates immediately
+beyond the training horizon. Lines show the mean across seeds 0, 1, and 2; the
+shaded regions show ±1 sample standard deviation across seeds.
+
+![Exact-match and slot accuracy by number of swap events for Direct d128 L7 and Recurrent d128 L1](docs/assets/main_length_generalization.png)
+
+The corresponding split-level results are shown as **exact match / slot
+accuracy (%)**:
+
+| Model | ID 2–10 | OOD 11–19 | OOD 20–40 | OOD 40–80 |
+| --- | ---: | ---: | ---: | ---: |
+| Direct `d128 L7` | 100.0 / 100.0 | 28.1 / 53.9 | 0.0 / 20.2 | 0.0 / 20.1 |
+| Recurrent `d128 L1`, `K=N` | **100.0 / 100.0** | **90.6 / 97.5** | **4.6 / 36.1** | **0.1 / 19.1** |
+
+Recurrence substantially moves the length-generalization boundary, although
+neither model generalizes meaningfully to 40–80 swaps.
+
+### Input representation × positional encoding
+
+The recurrent architecture alone is not sufficient. Atomic operation tokens
+and the positional scheme strongly determine whether the shared transition can
+be reused beyond the training range. Values are seed means reported as **exact
+match / slot accuracy (%)**.
+
+| Input representation | Positional encoding | ID 2–10 | OOD 11–19 | OOD 20–40 | OOD 40–80 |
+| --- | --- | ---: | ---: | ---: | ---: |
+| Template | NoPE | 0.0 / 20.1 | 0.0 / 19.9 | 0.0 / 19.9 | 0.0 / 19.0 |
+| Template | Absolute sinusoidal | 100.0 / 100.0 | 0.3 / 27.8 | 0.0 / 20.6 | 0.0 / 19.8 |
+| Atomic | NoPE | **100.0 / 100.0** | **90.6 / 97.5** | **4.6 / 36.1** | 0.1 / 19.1 |
+| Atomic | Absolute sinusoidal | 100.0 / 100.0 | 18.0 / 46.6 | 0.0 / 21.0 | 0.0 / 20.4 |
+
+### Recurrent capacity scaling
+
+Increasing recurrent capacity extends the useful extrapolation range more
+effectively than increasing fixed depth. Values are **exact match / slot
+accuracy (%)**.
+
+| Model | OOD 11–19 | OOD 20–40 |
+| --- | ---: | ---: |
+| Recurrent `d128 L1` | 90.6 / 97.5 | 4.6 / 36.1 |
+| Recurrent `d256 L4` | **99.4 / 99.9** | **35.1 / 66.1** |
+| Direct `d256 L12` | 38.1 / 63.9 | 0.0 / 20.7 |
+
+The figure can be regenerated from the included seed-level JSON files:
+
+```bash
+uv run --extra analysis python scripts/plot_main_length_generalization.py
+```
+
+The raw per-length results and aggregated mean/SD CSV are stored in
+[`results/paper/main`](results/paper/main).
+
 ## Setup
 
 Python 3.10 or later and [uv](https://docs.astral.sh/uv/) are recommended.
