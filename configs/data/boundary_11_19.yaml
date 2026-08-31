@@ -1,0 +1,9 @@
+data:
+  mode: boundary_sweep
+  output: data/boundary_sweep
+  n_entities: 5
+  boundary_min_swaps: 11
+  boundary_max_swaps: 19
+  samples_per_length: 100
+  noop_ratio: 0.0
+  seed: 0

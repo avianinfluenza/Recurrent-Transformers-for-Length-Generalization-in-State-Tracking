@@ -12,11 +12,17 @@ import json
 import random
 from dataclasses import dataclass, asdict
 from pathlib import Path
+from typing import Any, Sequence
+
+import yaml
 
 try:  # module-style and script-style execution 둘 다 지원
     from .vocab import NAMES, COLORS, N_ENTITIES
 except ImportError:  # pragma: no cover
     from vocab import NAMES, COLORS, N_ENTITIES
+
+
+ROOT = Path(__file__).resolve().parents[2]
 
 
 @dataclass
@@ -159,30 +165,86 @@ def load_jsonl(path):
     return meta, rows
 
 
-def main():
-    p = argparse.ArgumentParser()
-    p.add_argument("--out", default="../data")
-    p.add_argument("--n-train", type=int, default=10_000)
-    p.add_argument("--n-test", type=int, default=500)
-    p.add_argument("--n-entities", type=int, default=5)
-    p.add_argument("--l-train", type=int, default=10)
-    p.add_argument("--ood-mult", type=int, nargs="+", default=[4, 8])
-    p.add_argument("--noop-ratio", type=float, default=0.0)
-    p.add_argument("--seed", type=int, default=0)
+def _load_config(path: Path) -> dict[str, Any]:
+    with path.open(encoding="utf-8") as stream:
+        loaded = yaml.safe_load(stream)
+    if not isinstance(loaded, dict):
+        raise ValueError("data config must contain a YAML mapping")
+    raw_data = loaded.get("data", loaded)
+    if not isinstance(raw_data, dict):
+        raise ValueError("config 'data' must be a YAML mapping")
+    return raw_data
+
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    config_parser = argparse.ArgumentParser(add_help=False)
+    config_parser.add_argument("--config", type=Path)
+    config_args, _ = config_parser.parse_known_args(argv)
+    config: dict[str, Any] = {}
+    if config_args.config is not None:
+        try:
+            config = _load_config(config_args.config)
+        except (OSError, ValueError, yaml.YAMLError) as error:
+            config_parser.error(str(error))
+
+    mode = str(config.get("mode", "standard"))
+    if mode not in {"standard", "boundary_sweep", "extended_length"}:
+        config_parser.error(
+            "data.mode must be standard, boundary_sweep, or extended_length"
+        )
+    configured_output = config.get("output", config.get("out", "../data"))
+    if (
+        config_args.config is not None
+        and not Path(str(configured_output)).is_absolute()
+    ):
+        configured_output = ROOT / str(configured_output)
+
+    p = argparse.ArgumentParser(parents=[config_parser])
+    p.add_argument("--out", default=configured_output)
+    p.add_argument("--n-train", type=int, default=config.get("n_train", 10_000))
+    p.add_argument("--n-test", type=int, default=config.get("n_test", 500))
+    p.add_argument("--n-entities", type=int, default=config.get("n_entities", 5))
+    p.add_argument("--l-train", type=int, default=config.get("l_train", 10))
+    p.add_argument(
+        "--ood-mult",
+        type=int,
+        nargs="+",
+        default=config.get("ood_mult", [4, 8]),
+    )
+    p.add_argument("--noop-ratio", type=float, default=config.get("noop_ratio", 0.0))
+    p.add_argument("--seed", type=int, default=config.get("seed", 0))
     p.add_argument(
         "--extended-length",
         action="store_true",
+        default=mode == "extended_length",
         help="generate the 2~32 train/ID, 40~80 OOD-x4, and 80~160 OOD-x8 profile",
     )
     p.add_argument(
         "--boundary-sweep",
         action="store_true",
+        default=mode == "boundary_sweep",
         help="generate only a balanced boundary evaluation split",
     )
-    p.add_argument("--boundary-min-swaps", type=int, default=11)
-    p.add_argument("--boundary-max-swaps", type=int, default=19)
-    p.add_argument("--samples-per-length", type=int, default=100)
-    a = p.parse_args()
+    p.add_argument(
+        "--boundary-min-swaps",
+        type=int,
+        default=config.get("boundary_min_swaps", 11),
+    )
+    p.add_argument(
+        "--boundary-max-swaps",
+        type=int,
+        default=config.get("boundary_max_swaps", 19),
+    )
+    p.add_argument(
+        "--samples-per-length",
+        type=int,
+        default=config.get("samples_per_length", 100),
+    )
+    return p.parse_args(argv)
+
+
+def main(argv: Sequence[str] | None = None):
+    a = parse_args(argv)
 
     out = Path(a.out)
     base = dict(n_entities=a.n_entities, noop_ratio=a.noop_ratio)

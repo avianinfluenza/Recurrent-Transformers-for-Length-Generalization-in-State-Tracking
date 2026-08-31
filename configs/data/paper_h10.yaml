@@ -1,0 +1,10 @@
+data:
+  mode: standard
+  output: data
+  n_entities: 5
+  n_train: 10000
+  n_test: 500
+  l_train: 10
+  ood_mult: [4, 8]
+  noop_ratio: 0.0
+  seed: 0

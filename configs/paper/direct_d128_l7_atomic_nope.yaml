@@ -1,0 +1,41 @@
+# Compute-matched fixed-depth baseline from the paper: Atomic + NoPE.
+architecture: direct
+position_encoding: none
+direct_input_format: atomic
+direct_causal: true
+run_name: paper-direct-d128-l7-atomic-nope
+output_dir: runs/original
+
+model:
+  d_model: 128
+  n_heads: 4
+  d_ff: 512
+  dropout: 0.0
+  num_layers: 7
+  classifier_dim: 2
+
+training:
+  online_training: true
+  train_steps: 100000
+  batch_size: 128
+  optimizer: AdamW
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  gradient_clip: 1.0
+  curriculum_min_swaps: 2
+  curriculum_max_swaps: 10
+  curriculum_steps_per_length: 1000
+  seeds: [0, 1, 2]
+
+performance:
+  amp: true
+  num_workers: 2
+  pin_memory: true
+  persistent_workers: true
+
+evaluation:
+  batch_size: 128
+  splits: [id_test, ood_x4, ood_x8]
+  metrics: [slot_accuracy, exact_match, exact_match_by_swaps]
+
+device: auto

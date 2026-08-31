@@ -7,8 +7,10 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from typing import Any, Sequence
 
 import torch
+import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
@@ -31,15 +33,134 @@ from src.original.model import (
 )
 
 
-def parse_args() -> argparse.Namespace:
+def _load_yaml(path: Path) -> dict[str, Any]:
+    with path.open(encoding="utf-8") as stream:
+        loaded = yaml.safe_load(stream)
+    if not isinstance(loaded, dict):
+        raise ValueError("evaluation config must contain a YAML mapping")
+    return loaded
+
+
+def _config_path(value: object | None) -> Path | None:
+    if value is None:
+        return None
+    path = Path(str(value))
+    return path if path.is_absolute() else ROOT / path
+
+
+def _first(*values: object | None, default: object | None = None) -> object | None:
+    return next((value for value in values if value is not None), default)
+
+
+def _apply_config(
+    parser: argparse.ArgumentParser,
+    args: argparse.Namespace,
+) -> argparse.Namespace:
+    config: dict[str, Any] = {}
+    evaluation: dict[str, Any] = {}
+    if args.config is not None:
+        try:
+            config = _load_yaml(args.config)
+        except (OSError, ValueError, yaml.YAMLError) as error:
+            parser.error(str(error))
+        raw_evaluation = config.get("evaluation") or {}
+        if not isinstance(raw_evaluation, dict):
+            parser.error("config 'evaluation' must be a YAML mapping")
+        evaluation = raw_evaluation
+
+    config_checkpoint = _first(evaluation.get("checkpoint"), config.get("checkpoint"))
+    config_data_dir = _first(evaluation.get("data_dir"), config.get("data_dir"))
+    config_out = _first(
+        evaluation.get("out"),
+        evaluation.get("output"),
+        config.get("out"),
+        config.get("output"),
+    )
+    args.checkpoint = args.checkpoint or _config_path(config_checkpoint)
+    args.data_dir = args.data_dir or _config_path(config_data_dir) or ROOT / "data"
+    args.out = args.out or _config_path(config_out)
+    args.swaps_per_loop = _first(
+        args.swaps_per_loop,
+        evaluation.get("swaps_per_loop"),
+        config.get("swaps_per_loop"),
+    )
+    args.splits = list(
+        _first(args.splits, evaluation.get("splits"), default=list(EVAL_SPLITS))
+    )
+    fixed_loop_counts = _first(
+        args.fixed_loop_counts,
+        evaluation.get("fixed_loop_counts"),
+        default=None,
+    )
+    args.fixed_loop_counts = (
+        None if fixed_loop_counts is None else [int(value) for value in fixed_loop_counts]
+    )
+    args.device = str(
+        _first(
+            args.device,
+            evaluation.get("device"),
+            config.get("device"),
+            default="auto",
+        )
+    )
+    args.eval_batch_size = int(
+        _first(args.eval_batch_size, evaluation.get("batch_size"), default=128)
+    )
+    max_eval_samples = _first(
+        args.max_eval_samples,
+        evaluation.get("max_samples"),
+        default=None,
+    )
+    args.max_eval_samples = (
+        None if max_eval_samples is None else int(max_eval_samples)
+    )
+    args.periodic_atomic_positions = bool(
+        _first(
+            args.periodic_atomic_positions,
+            evaluation.get("periodic_atomic_positions"),
+            default=False,
+        )
+    )
+    periodic_position_max_swaps = _first(
+        args.periodic_position_max_swaps,
+        evaluation.get("periodic_position_max_swaps"),
+        default=None,
+    )
+    args.periodic_position_max_swaps = (
+        None
+        if periodic_position_max_swaps is None
+        else int(periodic_position_max_swaps)
+    )
+    args.slot_first = _first(
+        args.slot_first,
+        evaluation.get("slot_first"),
+        default=None,
+    )
+
+    if args.checkpoint is None:
+        parser.error("set --checkpoint or 'checkpoint' in the YAML config")
+    if args.swaps_per_loop is None:
+        parser.error(
+            "set --swaps-per-loop or 'evaluation.swaps_per_loop' in the YAML config"
+        )
+    args.swaps_per_loop = float(args.swaps_per_loop)
+    return args
+
+
+def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--checkpoint", type=Path, required=True)
-    parser.add_argument("--swaps-per-loop", type=float, required=True)
-    parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
+    parser.add_argument(
+        "--config",
+        type=Path,
+        help="YAML evaluation config; explicit CLI options override its values",
+    )
+    parser.add_argument("--checkpoint", type=Path)
+    parser.add_argument("--swaps-per-loop", type=float)
+    parser.add_argument("--data-dir", type=Path)
     parser.add_argument(
         "--splits",
         nargs="+",
-        default=list(EVAL_SPLITS),
+        default=None,
         help="JSONL stems to evaluate relative to --data-dir",
     )
     parser.add_argument(
@@ -49,12 +170,13 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="also evaluate every sample at these fixed recurrence counts",
     )
-    parser.add_argument("--device", default="auto")
-    parser.add_argument("--eval-batch-size", type=int, default=128)
+    parser.add_argument("--device", default=None)
+    parser.add_argument("--eval-batch-size", type=int, default=None)
     parser.add_argument("--max-eval-samples", type=int, default=None)
     parser.add_argument(
         "--periodic-atomic-positions",
-        action="store_true",
+        action=argparse.BooleanOptionalAction,
+        default=None,
         help=(
             "diagnostic eval-only override for atomic+sinusoidal Fan checkpoints: "
             "repeat swap position ids after the trained max swap length"
@@ -73,7 +195,7 @@ def parse_args() -> argparse.Namespace:
         help="override checkpoint run metadata; otherwise auto-detected from sibling args.json",
     )
     parser.add_argument("--out", type=Path, default=None, help="optional JSON output path")
-    return parser.parse_args()
+    return _apply_config(parser, parser.parse_args(argv))
 
 
 def main() -> None:
@@ -185,6 +307,7 @@ def main() -> None:
             else "length_matched_oracle"
         ),
         "checkpoint": str(args.checkpoint),
+        "config": str(args.config) if args.config is not None else None,
         "swaps_per_loop": args.swaps_per_loop,
         "fixed_loop_counts": sorted(set(args.fixed_loop_counts or [])),
         "slot_first": slot_first,

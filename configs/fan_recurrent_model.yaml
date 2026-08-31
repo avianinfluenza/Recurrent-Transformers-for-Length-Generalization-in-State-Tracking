@@ -28,7 +28,8 @@ ablations:
   deep_supervision_weight: 0.0
 
 evaluation:
-  splits: [id_test, ood_x4, ood_x8, boundary_11_20]
+  # boundary_11_19 lives in data/boundary_sweep and is evaluated separately.
+  splits: [id_test, ood_x4, ood_x8]
   metrics: [slot_accuracy, exact_match, exact_match_by_swaps]
   length_matched_eval: true
   trajectory_probe_eval: false

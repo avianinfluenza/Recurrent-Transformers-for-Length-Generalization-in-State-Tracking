@@ -1,0 +1,10 @@
+# Evaluate the seed-0 compute-matched Direct baseline on ID and long OOD splits.
+# Change checkpoint to another seed/run when needed.
+checkpoint: runs/original/paper-direct-d128-l7-atomic-nope-seed0/checkpoint.pt
+data_dir: data
+device: auto
+
+evaluation:
+  splits: [id_test, ood_x4, ood_x8]
+  batch_size: 128
+  output: runs/evaluations/paper-direct-d128-l7-seed0-ood.json

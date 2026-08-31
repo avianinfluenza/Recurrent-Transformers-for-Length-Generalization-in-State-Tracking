@@ -1,0 +1,12 @@
+# Evaluate the seed-0 paper checkpoint on the standard held-out and OOD splits.
+# Change checkpoint to another seed/run when needed.
+checkpoint: runs/original/paper-recurrent-d128-l1-atomic-nope-seed0/checkpoint.pt
+data_dir: data
+device: auto
+
+evaluation:
+  swaps_per_loop: 1
+  splits: [id_test, ood_x4, ood_x8]
+  fixed_loop_counts: [20, 24, 40, 64]
+  batch_size: 128
+  output: runs/evaluations/paper-recurrent-d128-l1-seed0-ood.json
