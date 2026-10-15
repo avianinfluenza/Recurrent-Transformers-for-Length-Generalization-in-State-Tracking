@@ -1,0 +1,58 @@
+{
+  "original_dtype": "float32",
+  "original_atol": 1e-05,
+  "original_rtol": 1e-05,
+  "original_failed_checks": 31,
+  "original_failures_by_tensor": {
+    "probabilities": 31
+  },
+  "rechecked_seed_length_groups": [
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      0,
+      8
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      1,
+      6
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      1,
+      10
+    ]
+  ],
+  "scope": "All 200 pairs (or configured count) and all K in every affected seed/length, both masks",
+  "audit_dtype": "float64",
+  "audit_device": "cpu",
+  "audit_atol": 1e-10,
+  "audit_rtol": 1e-10,
+  "audit_checks": 6464,
+  "audit_failed_checks": 0,
+  "audit_max_noncausal_hidden_relative_l2": 9.988741969796702e-15,
+  "audit_max_noncausal_probability_relative_l2": 8.963296852338281e-14,
+  "transport_seed_pairs": 5400,
+  "transport_failed_pairs": 0,
+  "transport_original_k2_mean_relative_l2": 0.34566445989146394,
+  "transport_after_k2_mean_relative_l2": 4.456631887403664e-16,
+  "transport_after_max_relative_l2": 1.4802354646993834e-15,
+  "interpretation": "Float32 tolerance violations resolve at much tighter float64 tolerance; consistent with reduction rounding amplified by recurrence/softmax. Not evidence against algebraic permutation invariance."
+}

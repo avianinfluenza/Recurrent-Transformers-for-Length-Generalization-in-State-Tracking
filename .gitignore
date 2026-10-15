@@ -14,4 +14,16 @@ wandb/
 lightning_logs/
 .ipynb_checkpoints/
 .DS_Store
+
+# Causal order sensitivity: keep the report, figures, and compact evidence;
+# omit reproducible tensor dumps, verbose per-sample tables, and run metadata.
+/results/analysis/causal_order_sensitivity/tensors/
+/results/analysis/causal_order_sensitivity/per_sample_per_k.csv
+/results/analysis/causal_order_sensitivity/float64_audit_per_sample_per_k.csv
+/results/analysis/causal_order_sensitivity/*.log
+/results/analysis/causal_order_sensitivity/*_config.json
+/results/analysis/causal_order_sensitivity/artifact_manifest.json
+/results/analysis/causal_order_sensitivity/checkpoint_sources.json
+/results/analysis/causal_order_sensitivity/environment_freeze.txt
+/results/analysis/causal_order_sensitivity/test_results.txt
 __training__.md
